@@ -39,6 +39,7 @@ export const Layout = () => {
         <NavLink to="/users" style={linkStyle}>👥 Пользователи</NavLink>
         <NavLink to="/restaurants" style={linkStyle}>🍽️ Рестораны</NavLink>
         <NavLink to="/orders" style={linkStyle}>📦 Заказы</NavLink>
+        <NavLink to="/categories" style={linkStyle}>🏷️ Категории</NavLink>
 
         <div style={{ marginTop: 'auto' }}>
           <div style={{ color: '#94a3b8', fontSize: 13, padding: '0 8px 8px' }}>
