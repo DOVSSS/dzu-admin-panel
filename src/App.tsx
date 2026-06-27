@@ -8,6 +8,7 @@ import { RestaurantsPage } from './pages/RestaurantsPage'
 import { OrdersPage } from './pages/OrdersPage'
 import { Layout } from './components/Layout'
 import { CategoriesPage } from './pages/CategoriesPage'
+import { SettingsPage } from './pages/SettingsPage'
 export default function App() {
   return (
     <AuthProvider>
@@ -23,6 +24,7 @@ export default function App() {
             }
           >
             <Route index element={<Navigate to="/dashboard" replace />} />
+            <Route path="settings" element={<SettingsPage />} />
             <Route path="categories" element={<CategoriesPage />} />
             <Route path="dashboard" element={<DashboardPage />} />
             <Route path="users" element={<UsersPage />} />
