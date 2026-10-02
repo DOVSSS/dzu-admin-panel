@@ -44,7 +44,7 @@ export const DashboardPage = () => {
 
   return (
     <div>
-      <h2 style={{ margin: '0 0 24px', fontSize: 24 }}>📊 Дашборд</h2>
+      <h2 className="admin-page-title" style={{ margin: '0 0 24px', fontSize: 24 }}>📊 Дашборд</h2>
 
       <div style={{
         display: 'grid',

@@ -38,7 +38,7 @@ export const RestaurantsPage = () => {
 
   return (
     <div>
-      <h2 style={{ margin: '0 0 24px', fontSize: 24 }}>🍽️ Рестораны</h2>
+      <h2 className="admin-page-title" style={{ margin: '0 0 24px', fontSize: 24 }}>🍽️ Рестораны</h2>
 
       <div style={{
         display: 'grid',

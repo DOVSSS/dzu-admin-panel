@@ -35,20 +35,8 @@ export const LoginPage = () => {
   }
 
   return (
-    <div style={{
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      background: '#f1f5f9',
-    }}>
-      <div style={{
-        background: '#fff',
-        padding: 40,
-        borderRadius: 16,
-        width: 360,
-        boxShadow: '0 4px 24px rgba(0,0,0,0.08)',
-      }}>
+    <div className="admin-login-page">
+      <div className="admin-login-card">
         <h1 style={{ margin: '0 0 8px', fontSize: 24 }}>🛵 Admin Panel</h1>
         <p style={{ margin: '0 0 24px', color: '#64748b' }}>Вход для администраторов</p>
 

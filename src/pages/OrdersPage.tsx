@@ -47,7 +47,7 @@ export const OrdersPage = () => {
 
   return (
     <div>
-      <h2 style={{ margin: '0 0 24px', fontSize: 24 }}>📦 Заказы</h2>
+      <h2 className="admin-page-title" style={{ margin: '0 0 24px', fontSize: 24 }}>📦 Заказы</h2>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {orders.map(order => (
@@ -58,10 +58,10 @@ export const OrdersPage = () => {
             boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
           }}>
             {/* Шапка заказа */}
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 12 }}>
-              <div>
+            <div className="admin-order-card__header">
+              <div className="admin-order-card__meta">
                 <span style={{ fontWeight: 700, fontSize: 16 }}>#{order.reference}</span>
-                <span style={{ marginLeft: 12, fontSize: 13, color: '#94a3b8' }}>
+                <span style={{ fontSize: 13, color: '#94a3b8' }}>
                   {new Date(order.createdAt).toLocaleString('ru-RU')}
                 </span>
               </div>
@@ -100,7 +100,7 @@ export const OrdersPage = () => {
             </div>
 
             {/* Статус */}
-            <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
+            <div className="admin-order-card__status-row">
               <span style={{ fontSize: 13, color: '#64748b' }}>Статус:</span>
               <select
                 value={order.status}

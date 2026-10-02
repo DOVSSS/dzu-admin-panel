@@ -40,13 +40,12 @@ export const SettingsPage = () => {
 
   return (
     <div>
-      <h1 style={{ fontSize: 24, fontWeight: 700, marginBottom: 24 }}>Настройки</h1>
+      <h1 className="admin-page-title" style={{ fontSize: 24, fontWeight: 700, marginBottom: 24 }}>Настройки</h1>
 
-      <div style={{
+      <div className="admin-settings-card" style={{
         background: '#fff',
         borderRadius: 12,
         padding: 24,
-        maxWidth: 480,
         boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
       }}>
         <h2 style={{ fontSize: 16, fontWeight: 600, marginBottom: 20 }}>Стоимость доставки и сборов</h2>

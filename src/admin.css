@@ -1,0 +1,84 @@
+/* Общие стили админ-панели (адаптив) */
+
+.admin-table-wrap {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
+.admin-table-wrap table {
+  min-width: 560px;
+}
+
+.admin-order-card__header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 12px;
+  flex-wrap: wrap;
+}
+
+.admin-order-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 4px 12px;
+}
+
+.admin-order-card__status-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.admin-login-page {
+  min-height: 100vh;
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f1f5f9;
+  padding: 16px;
+  box-sizing: border-box;
+}
+
+.admin-login-card {
+  background: #fff;
+  padding: 40px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 360px;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.08);
+  box-sizing: border-box;
+}
+
+@media (max-width: 480px) {
+  .admin-login-card {
+    padding: 24px 20px;
+  }
+}
+
+.admin-form-row {
+  display: flex;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.admin-form-row input[type='text'],
+.admin-form-row input:not([type]) {
+  flex: 1 1 100%;
+  min-width: 0;
+}
+
+@media (min-width: 481px) {
+  .admin-form-row input[type='text']:first-of-type {
+    flex: 1 1 200px;
+  }
+}
+
+.admin-settings-card {
+  max-width: 480px;
+  width: 100%;
+  box-sizing: border-box;
+}

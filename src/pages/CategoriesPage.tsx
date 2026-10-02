@@ -49,7 +49,7 @@ export const CategoriesPage = () => {
 
   return (
     <div>
-      <h1 style={{ fontSize: 24, fontWeight: 700, marginBottom: 24 }}>Категории</h1>
+      <h1 className="admin-page-title" style={{ fontSize: 24, fontWeight: 700, marginBottom: 24 }}>Категории</h1>
 
       {/* Форма создания */}
       <div style={{
@@ -60,7 +60,7 @@ export const CategoriesPage = () => {
         boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
       }}>
         <h2 style={{ fontSize: 16, fontWeight: 600, marginBottom: 16 }}>Добавить категорию</h2>
-        <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap' }}>
+        <div className="admin-form-row">
           <input
             placeholder="Название (например: Пицца)"
             value={name}
@@ -106,11 +106,10 @@ export const CategoriesPage = () => {
       </div>
 
       {/* Список категорий */}
-      <div style={{
+      <div className="admin-table-wrap" style={{
         background: '#fff',
         borderRadius: 12,
         boxShadow: '0 1px 3px rgba(0,0,0,0.1)',
-        overflow: 'hidden',
       }}>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>

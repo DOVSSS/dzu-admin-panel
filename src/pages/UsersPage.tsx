@@ -56,9 +56,9 @@ export const UsersPage = () => {
 
   return (
     <div>
-      <h2 style={{ margin: '0 0 24px', fontSize: 24 }}>👥 Пользователи</h2>
+      <h2 className="admin-page-title" style={{ margin: '0 0 24px', fontSize: 24 }}>👥 Пользователи</h2>
 
-      <div style={{ background: '#fff', borderRadius: 12, overflow: 'hidden', boxShadow: '0 1px 4px rgba(0,0,0,0.08)' }}>
+      <div className="admin-table-wrap" style={{ background: '#fff', borderRadius: 12, boxShadow: '0 1px 4px rgba(0,0,0,0.08)' }}>
         <table style={{ width: '100%', borderCollapse: 'collapse' }}>
           <thead>
             <tr style={{ background: '#f8fafc', borderBottom: '1px solid #e2e8f0' }}>
