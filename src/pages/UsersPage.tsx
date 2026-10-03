@@ -34,8 +34,8 @@ export const UsersPage = () => {
 
   const handleRoleChange = async (id: string, role: Role) => {
     try {
-      await updateUserRole(id, role)
-      setUsers(prev => prev.map(u => u.id === id ? { ...u, role } : u))
+      const updated = await updateUserRole(id, role)
+      setUsers(prev => prev.map(u => u.id === id ? { ...u, role: updated.role } : u))
     } catch {
       alert('Ошибка при смене роли')
     }
