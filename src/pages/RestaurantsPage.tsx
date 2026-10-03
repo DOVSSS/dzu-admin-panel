@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react'
+import { Link } from 'react-router-dom'
 import type { Restaurant } from '../types'
 import { getRestaurants, deleteRestaurant } from '../api/restaurantsApi'
+import { assetUrl } from '../config'
 
 export const RestaurantsPage = () => {
   const [restaurants, setRestaurants] = useState<Restaurant[]>([])
@@ -53,7 +55,7 @@ export const RestaurantsPage = () => {
             boxShadow: '0 1px 4px rgba(0,0,0,0.08)',
           }}>
             <img
-              src={`http://localhost:3000${r.image}`}
+              src={assetUrl(r.image)}
               alt={r.name}
               onError={e => (e.currentTarget.src = 'https://placehold.co/400x200?text=No+Image')}
               style={{ width: '100%', height: 160, objectFit: 'cover' }}
@@ -66,6 +68,24 @@ export const RestaurantsPage = () => {
               <div style={{ fontSize: 13, color: '#64748b', marginBottom: 12 }}>
                 Владелец ID: {r.ownerId ?? '—'}
               </div>
+              <Link
+                to={`/orders?restaurantId=${r.id}`}
+                style={{
+                  display: 'block',
+                  width: '100%',
+                  marginBottom: 8,
+                  padding: '8px',
+                  textAlign: 'center',
+                  background: '#eff6ff',
+                  color: '#2563eb',
+                  border: '1px solid #bfdbfe',
+                  borderRadius: 8,
+                  fontWeight: 500,
+                  textDecoration: 'none',
+                }}
+              >
+                Заказы ресторана
+              </Link>
               <button
                 onClick={() => handleDelete(r.id, r.name)}
                 style={{

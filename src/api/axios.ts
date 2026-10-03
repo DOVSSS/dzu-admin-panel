@@ -17,7 +17,11 @@ api.interceptors.response.use(
   (error) => {
     if (error.response?.status === 401) {
       localStorage.removeItem('admin_token')
+      localStorage.removeItem('admin_user')
       window.location.href = '/login'
+    }
+    if (error.response?.status === 403) {
+      console.error('Доступ запрещён:', error.response?.data?.message)
     }
     return Promise.reject(error)
   }
