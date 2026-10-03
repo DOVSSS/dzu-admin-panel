@@ -1,9 +1,14 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { useSearchParams } from 'react-router-dom'
 import type { Order, OrderStatus, Restaurant } from '../types'
 import { cancelOrder, getOrders, updateOrderStatus } from '../api/ordersApi'
 import { getRestaurants } from '../api/restaurantsApi'
 import { assetUrl } from '../config'
+import {
+  buildRestaurantNameMap,
+  getItemRestaurantLabel,
+  getOrderRestaurantLabel,
+} from '../utils/restaurantNames'
 
 const STATUS_CONFIG: Record<OrderStatus, { label: string; color: string }> = {
   PENDING: { label: '🕐 Новый', color: '#f59e0b' },
@@ -47,6 +52,10 @@ export const OrdersPage = () => {
 
   const restaurantId = searchParams.get('restaurantId') ?? ''
   const statusFilter = (searchParams.get('status') ?? '') as '' | OrderStatus
+  const restaurantNameById = useMemo(
+    () => buildRestaurantNameMap(restaurants),
+    [restaurants],
+  )
 
   const fetchOrders = useCallback(async () => {
     try {
@@ -106,14 +115,6 @@ export const OrdersPage = () => {
     } finally {
       setUpdatingId(null)
     }
-  }
-
-  const restaurantLabel = (order: Order) => {
-    if (order.restaurants?.length) {
-      return order.restaurants.map(r => r.name).join(', ')
-    }
-    const names = [...new Set(order.items.map(i => i.restaurantName).filter(Boolean))]
-    return names.length ? names.join(', ') : '—'
   }
 
   if (loading && orders.length === 0) return <div>Загрузка...</div>
@@ -194,7 +195,7 @@ export const OrdersPage = () => {
               </div>
 
               <div style={{ fontSize: 13, color: '#64748b', marginBottom: 8 }}>
-                🍽️ {restaurantLabel(order)}
+                🍽️ {getOrderRestaurantLabel(order, restaurantNameById)}
               </div>
 
               <div style={{ fontSize: 13, color: '#64748b', marginBottom: 8 }}>
@@ -216,7 +217,9 @@ export const OrdersPage = () => {
               )}
 
               <div style={{ marginBottom: 12 }}>
-                {order.items.map(item => (
+                {order.items.map(item => {
+                  const itemRestaurant = getItemRestaurantLabel(item, restaurantNameById)
+                  return (
                   <div
                     key={item.id}
                     style={{
@@ -237,13 +240,16 @@ export const OrdersPage = () => {
                       style={{ width: 40, height: 40, borderRadius: 6, objectFit: 'cover' }}
                     />
                     <span style={{ flex: 1 }}>{item.productName}</span>
-                    {item.restaurantName && (
-                      <span style={{ fontSize: 12, color: '#94a3b8' }}>{item.restaurantName}</span>
+                    {itemRestaurant && (
+                      <span style={{ fontSize: 12, color: '#94a3b8' }}>
+                        {itemRestaurant}
+                      </span>
                     )}
                     <span style={{ color: '#94a3b8' }}>x{item.quantity}</span>
                     <span style={{ fontWeight: 600 }}>{item.price * item.quantity} ₽</span>
                   </div>
-                ))}
+                  )
+                })}
               </div>
 
               <div
