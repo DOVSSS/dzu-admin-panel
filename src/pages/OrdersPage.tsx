@@ -5,7 +5,9 @@ import { cancelOrder, getOrders, updateOrderStatus } from '../api/ordersApi'
 import { getRestaurants } from '../api/restaurantsApi'
 import { assetUrl } from '../config'
 import {
+  buildProductRestaurantMap,
   buildRestaurantNameMap,
+  enrichOrdersWithRestaurants,
   getItemRestaurantLabel,
   getOrderRestaurantLabel,
 } from '../utils/restaurantNames'
@@ -56,26 +58,30 @@ export const OrdersPage = () => {
     () => buildRestaurantNameMap(restaurants),
     [restaurants],
   )
+  const productRestaurantMap = useMemo(
+    () => buildProductRestaurantMap(restaurants),
+    [restaurants],
+  )
 
   const fetchOrders = useCallback(async () => {
     try {
       setLoading(true)
       setError('')
-      const data = await getOrders({
-        restaurantId: restaurantId || undefined,
-        status: statusFilter || undefined,
-      })
-      setOrders(data)
+      const [restaurantList, data] = await Promise.all([
+        getRestaurants(),
+        getOrders({
+          restaurantId: restaurantId || undefined,
+          status: statusFilter || undefined,
+        }),
+      ])
+      setRestaurants(restaurantList)
+      setOrders(enrichOrdersWithRestaurants(data, restaurantList))
     } catch {
       setError('Не удалось загрузить заказы')
     } finally {
       setLoading(false)
     }
   }, [restaurantId, statusFilter])
-
-  useEffect(() => {
-    getRestaurants().then(setRestaurants).catch(() => {})
-  }, [])
 
   useEffect(() => {
     fetchOrders()
@@ -96,7 +102,13 @@ export const OrdersPage = () => {
     try {
       setUpdatingId(order.id)
       const updated = await updateOrderStatus(order.id, next)
-      setOrders(prev => prev.map(o => (o.id === updated.id ? updated : o)))
+      setOrders(prev =>
+        prev.map(o =>
+          o.id === updated.id
+            ? enrichOrdersWithRestaurants([updated], restaurants)[0]
+            : o,
+        ),
+      )
     } catch {
       alert('Не удалось обновить статус')
     } finally {
@@ -109,7 +121,13 @@ export const OrdersPage = () => {
     try {
       setUpdatingId(order.id)
       const updated = await cancelOrder(order.id)
-      setOrders(prev => prev.map(o => (o.id === updated.id ? updated : o)))
+      setOrders(prev =>
+        prev.map(o =>
+          o.id === updated.id
+            ? enrichOrdersWithRestaurants([updated], restaurants)[0]
+            : o,
+        ),
+      )
     } catch {
       alert('Не удалось отменить заказ')
     } finally {
@@ -194,8 +212,8 @@ export const OrdersPage = () => {
                 </div>
               </div>
 
-              <div style={{ fontSize: 13, color: '#64748b', marginBottom: 8 }}>
-                🍽️ {getOrderRestaurantLabel(order, restaurantNameById)}
+              <div style={{ fontSize: 14, color: '#1e293b', marginBottom: 8, fontWeight: 600 }}>
+                🍽️ {getOrderRestaurantLabel(order, restaurantNameById, productRestaurantMap)}
               </div>
 
               <div style={{ fontSize: 13, color: '#64748b', marginBottom: 8 }}>
@@ -218,7 +236,11 @@ export const OrdersPage = () => {
 
               <div style={{ marginBottom: 12 }}>
                 {order.items.map(item => {
-                  const itemRestaurant = getItemRestaurantLabel(item, restaurantNameById)
+                  const itemRestaurant = getItemRestaurantLabel(
+                    item,
+                    restaurantNameById,
+                    productRestaurantMap,
+                  )
                   return (
                   <div
                     key={item.id}

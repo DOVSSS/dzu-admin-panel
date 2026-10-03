@@ -10,6 +10,10 @@ export interface User {
   createdAt: string
 }
 
+export interface RestaurantProductRef {
+  id: string
+}
+
 export interface Restaurant {
   id: string
   name: string
@@ -17,10 +21,12 @@ export interface Restaurant {
   image: string
   ownerId: string | null
   createdAt: string
+  products?: RestaurantProductRef[]
 }
 
 export interface OrderItem {
   id: string
+  productId?: string
   productName: string
   quantity: number
   price: number
