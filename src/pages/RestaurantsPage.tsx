@@ -30,8 +30,11 @@ export const RestaurantsPage = () => {
     try {
       await deleteRestaurant(id)
       setRestaurants(prev => prev.filter(r => r.id !== id))
-    } catch {
-      alert('Ошибка при удалении')
+    } catch (e: unknown) {
+      const msg =
+        (e as { response?: { data?: { message?: string } } })?.response?.data
+          ?.message ?? 'Ошибка при удалении'
+      alert(msg)
     }
   }
 
