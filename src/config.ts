@@ -1,5 +1,5 @@
 /** Origin without /api — for static assets (uploads). */
-export const API_ORIGIN = 'https://delivery-backend-alichan25.amvera.io'
+export const API_ORIGIN = 'https://delivery-backend-alichan25.msk1.amvera.tech'
 
 export const assetUrl = (path: string): string => {
   if (!path) return ''

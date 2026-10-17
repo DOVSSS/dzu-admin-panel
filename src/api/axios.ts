@@ -1,7 +1,7 @@
 import axios from 'axios'
 
 const api = axios.create({
-  baseURL: 'https://delivery-backend-alichan25.amvera.io/api',
+  baseURL: 'https://delivery-backend-alichan25.msk1.amvera.tech/api',
 })
 
 api.interceptors.request.use((config) => {

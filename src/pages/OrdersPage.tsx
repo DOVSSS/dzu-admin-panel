@@ -185,8 +185,9 @@ export const OrdersPage = () => {
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
         {orders.map(order => {
+          const isTaxi = order.type === 'TAXI'
           const cfg = STATUS_CONFIG[order.status] ?? STATUS_CONFIG.PENDING
-          const next = NEXT_STATUS[order.status]
+          const next = isTaxi ? undefined : NEXT_STATUS[order.status]
           const busy = updatingId === order.id
 
           return (
@@ -203,6 +204,20 @@ export const OrdersPage = () => {
               <div className="admin-order-card__header">
                 <div className="admin-order-card__meta">
                   <span style={{ fontWeight: 700, fontSize: 16 }}>#{order.reference}</span>
+                  {isTaxi && (
+                    <span
+                      style={{
+                        fontSize: 12,
+                        fontWeight: 700,
+                        background: '#FEF3C7',
+                        color: '#92400E',
+                        padding: '2px 8px',
+                        borderRadius: 6,
+                      }}
+                    >
+                      🚕 Такси
+                    </span>
+                  )}
                   <span style={{ fontSize: 13, color: '#94a3b8' }}>
                     {new Date(order.createdAt).toLocaleString('ru-RU')}
                   </span>
@@ -212,9 +227,11 @@ export const OrdersPage = () => {
                 </div>
               </div>
 
-              <div style={{ fontSize: 14, color: '#1e293b', marginBottom: 8, fontWeight: 600 }}>
-                🍽️ {getOrderRestaurantLabel(order, restaurantNameById, productRestaurantMap)}
-              </div>
+              {!isTaxi && (
+                <div style={{ fontSize: 14, color: '#1e293b', marginBottom: 8, fontWeight: 600 }}>
+                  🍽️ {getOrderRestaurantLabel(order, restaurantNameById, productRestaurantMap)}
+                </div>
+              )}
 
               <div style={{ fontSize: 13, color: '#64748b', marginBottom: 8 }}>
                 👤 {order.user?.name ?? 'Аноним'}
@@ -223,8 +240,14 @@ export const OrdersPage = () => {
               </div>
 
               {(order.deliveryAddress || order.user?.address) && (
+                <div style={{ fontSize: 13, color: '#64748b', marginBottom: isTaxi ? 4 : 12 }}>
+                  📍 {isTaxi ? 'Откуда: ' : ''}{order.deliveryAddress || order.user?.address}
+                </div>
+              )}
+
+              {isTaxi && order.destinationAddress && (
                 <div style={{ fontSize: 13, color: '#64748b', marginBottom: 12 }}>
-                  📍 {order.deliveryAddress || order.user?.address}
+                  🏁 Куда: {order.destinationAddress}
                 </div>
               )}
 
@@ -235,7 +258,7 @@ export const OrdersPage = () => {
               )}
 
               <div style={{ marginBottom: 12 }}>
-                {order.items.map(item => {
+                {!isTaxi && order.items.map(item => {
                   const itemRestaurant = getItemRestaurantLabel(
                     item,
                     restaurantNameById,
@@ -332,7 +355,7 @@ export const OrdersPage = () => {
 
                 {order.status === 'READY' && (
                   <span style={{ fontSize: 13, color: '#64748b' }}>
-                    Дальше заказ забирает курьер
+                    {isTaxi ? 'Курьер может взять заказ в приложении' : 'Дальше заказ забирает курьер'}
                   </span>
                 )}
               </div>

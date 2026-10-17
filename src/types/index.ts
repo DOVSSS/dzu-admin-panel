@@ -48,12 +48,16 @@ export type OrderStatus =
   | 'DELIVERED'
   | 'CANCELLED'
 
+export type OrderType = 'FOOD' | 'TAXI'
+
 export interface Order {
   id: string
   reference: string
   status: OrderStatus
+  type?: OrderType
   total: number
   deliveryAddress: string | null
+  destinationAddress?: string | null
   comment?: string | null
   createdAt: string
   user: (Pick<User, 'id' | 'email' | 'name' | 'phone'> & { address?: string }) | null
