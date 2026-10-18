@@ -4,10 +4,11 @@ import api from '../api/axios'
 interface Settings {
   deliveryFee: number
   serviceFee: number
+  taxiFee: number
 }
 
 export const SettingsPage = () => {
-  const [settings, setSettings] = useState<Settings>({ deliveryFee: 150, serviceFee: 50 })
+  const [settings, setSettings] = useState<Settings>({ deliveryFee: 150, serviceFee: 50, taxiFee: 200 })
   const [isLoading, setIsLoading] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
   const [success, setSuccess] = useState(false)
@@ -26,7 +27,11 @@ export const SettingsPage = () => {
       setIsSaving(true)
       setError(null)
       setSuccess(false)
-      await api.patch('/settings', settings)
+      await api.patch('/settings', {
+        deliveryFee: settings.deliveryFee,
+        serviceFee: settings.serviceFee,
+        taxiFee: settings.taxiFee,
+      })
       setSuccess(true)
       setTimeout(() => setSuccess(false), 3000)
     } catch (e: any) {
@@ -74,6 +79,23 @@ export const SettingsPage = () => {
 
         <div style={{ marginTop: 8, padding: 12, background: '#f8fafc', borderRadius: 8, fontSize: 13, color: '#64748b' }}>
           Итого к оплате = сумма блюд + {settings.deliveryFee} ₽ (доставка) + {settings.serviceFee} ₽ (сервис)
+        </div>
+
+        <h2 style={{ fontSize: 16, fontWeight: 600, margin: '28px 0 20px' }}>Такси</h2>
+
+        <label style={labelStyle}>
+          Стоимость поездки на такси (₽)
+          <input
+            type="number"
+            min={0}
+            value={settings.taxiFee}
+            onChange={e => setSettings(prev => ({ ...prev, taxiFee: Number(e.target.value) }))}
+            style={inputStyle}
+          />
+        </label>
+
+        <div style={{ marginTop: 8, padding: 12, background: '#f8fafc', borderRadius: 8, fontSize: 13, color: '#64748b' }}>
+          Клиент платит за такси ровно {settings.taxiFee} ₽. Доставка еды и сервисный сбор к такси не применяются.
         </div>
 
         {error && <p style={{ color: '#ef4444', marginTop: 12, fontSize: 14 }}>{error}</p>}
