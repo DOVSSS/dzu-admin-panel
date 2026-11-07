@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import api from '../api/axios'
+import { getApiErrorMessage } from '../utils/apiError'
 
 interface Category {
   id: string
@@ -34,8 +35,8 @@ export const CategoriesPage = () => {
       setName('')
       setEmoji('')
       await fetchCategories()
-    } catch (e: any) {
-      setError(e?.response?.data?.message || 'Ошибка')
+    } catch (e: unknown) {
+      setError(getApiErrorMessage(e, 'Не удалось создать категорию'))
     } finally {
       setIsLoading(false)
     }
@@ -43,8 +44,13 @@ export const CategoriesPage = () => {
 
   const handleDelete = async (id: string) => {
     if (!confirm('Удалить категорию?')) return
-    await api.delete(`/categories/${id}`)
-    await fetchCategories()
+    try {
+      setError(null)
+      await api.delete(`/categories/${id}`)
+      await fetchCategories()
+    } catch (e: unknown) {
+      setError(getApiErrorMessage(e, 'Не удалось удалить категорию'))
+    }
   }
 
   return (
