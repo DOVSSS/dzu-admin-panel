@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { getUsers } from '../api/usersApi'
 import { getRestaurants } from '../api/restaurantsApi'
 import { getOrders } from '../api/ordersApi'
+import { getRevenue } from '../api/revenueApi'
 
 export const DashboardPage = () => {
   const [stats, setStats] = useState({
@@ -15,16 +16,17 @@ export const DashboardPage = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        const [users, restaurants, orders] = await Promise.all([
+        const [users, restaurants, orders, revenue] = await Promise.all([
           getUsers(),
           getRestaurants(),
           getOrders(),
+          getRevenue(),
         ])
         setStats({
           users: users.length,
           restaurants: restaurants.length,
           orders: orders.length,
-          revenue: orders.reduce((sum, o) => sum + o.total, 0),
+          revenue: revenue.totalRevenue,
         })
       } finally {
         setLoading(false)

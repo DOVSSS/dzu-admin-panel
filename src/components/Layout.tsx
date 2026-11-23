@@ -8,6 +8,7 @@ const NAV_ITEMS = [
   { to: '/users', label: '👥 Пользователи' },
   { to: '/restaurants', label: '🍽️ Рестораны' },
   { to: '/orders', label: '📦 Заказы' },
+  { to: '/revenue', label: '💰 Выручка' },
   { to: '/categories', label: '🏷️ Категории' },
   { to: '/settings', label: '⚙️ Настройки' },
 ] as const

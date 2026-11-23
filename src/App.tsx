@@ -9,6 +9,7 @@ import { OrdersPage } from './pages/OrdersPage'
 import { Layout } from './components/Layout'
 import { CategoriesPage } from './pages/CategoriesPage'
 import { SettingsPage } from './pages/SettingsPage'
+import { RevenuePage } from './pages/RevenuePage'
 export default function App() {
   return (
     <AuthProvider>
@@ -30,6 +31,7 @@ export default function App() {
             <Route path="users" element={<UsersPage />} />
             <Route path="restaurants" element={<RestaurantsPage />} />
             <Route path="orders" element={<OrdersPage />} />
+            <Route path="revenue" element={<RevenuePage />} />
           </Route>
         </Routes>
       </BrowserRouter>
